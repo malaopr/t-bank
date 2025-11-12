@@ -1,18 +1,73 @@
 package ru.tbank.education.school.lesson1
+import kotlin.math.*
 
-/**
- * Метод для вычисления простых арифметических операций.
- */
-fun calculate(a: Double, b: Double, operation: OperationType): Double? {
-    TODO()
+fun calculate(a: Double, b: Double = 0.0, operation: OperationType = OperationType.ADD): Double? {
+    return when (operation) {
+        OperationType.ADD -> {
+            a + b
+        }
+
+        OperationType.SUBTRACT -> {
+            a - b
+        }
+
+        OperationType.MULTIPLY -> {
+            a * b
+        }
+
+        OperationType.DIVIDE -> {
+            if (b==0.0) null else a/b
+        }
+
+        OperationType.SIN -> {
+            sin(a)
+        }
+
+        OperationType.COS -> {
+            cos(a)
+        }
+
+        OperationType.SQRT -> {
+            a.takeIf {it >= 0}?.let { sqrt(it)}
+        }
+    }
 }
 
-/**
- * Функция вычисления выражения, представленного строкой
- * @return результат вычисления строки или null, если вычисление невозможно
- * @sample "5 * 2".calculate()
- */
 @Suppress("ReturnCount")
 fun String.calculate(): Double? {
-    TODO()
+    val parts = trim().split(" ")
+
+    if (parts.size == 3) {
+        val a = parts[0].toDoubleOrNull() ?: return null
+        val operationStr = parts[1]
+        val b = parts[2].toDoubleOrNull() ?: return null
+
+        return when (operationStr) {
+            "+" -> calculate(a, b, OperationType.ADD)
+            "-" -> calculate(a, b, OperationType.SUBTRACT)
+            "*" -> calculate(a, b, OperationType.MULTIPLY)
+            "/" -> calculate(a, b, OperationType.DIVIDE)
+            else -> null
+        }
+    }
+
+    if (parts.size == 2) {
+        val operationStr = parts[0].uppercase()
+        val number = parts[1].toDoubleOrNull() ?: return null
+
+        return when (operationStr) {
+            "SIN" -> calculate(number, operation = OperationType.SIN)
+            "COS" -> calculate(number, operation = OperationType.COS)
+            "SQRT" -> calculate(number, operation = OperationType.SQRT)
+            else -> null
+        }
+    }
+
+    return null
+}
+
+fun printResult(result: Double?) {
+    result?.let {
+        println("Результат: $it")
+    } ?: println("Ошибка")
 }

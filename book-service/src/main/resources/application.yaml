@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: book-service
+
+book:
+  max-entries: 10
+  allowed-categories:
+    - FICTION
+    - SCIENCE
+    - HISTORY
+    - TECHNOLOGY
+  forbidden-titles:
+    - "forbidden"
+    - "blocked"
